@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-'''Pulses a selected circuit with a 2.5 Hz signal for 30 sec
-to discover the location of a valve'''
+'''Toggles a selected circuit'''
 import web
 from time import sleep
 import gv # Get access to SIP's settings
@@ -12,12 +11,12 @@ from gpio_pins import set_output
 
 
 urls.extend([
-             '/puls', 'plugins.pulse_cct.pulse',
-             '/puls-run', 'plugins.pulse_cct.p_run',
-             '/puls-stop', 'plugins.pulse_cct.p_stop',
-             '/puls-sen', 'plugins.pulse_cct.p_save_enabled'
+             '/togl', 'plugins.toggle_cct.toggle',
+             '/togl-run', 'plugins.toggle_cct.p_run',
+             '/togl-stop', 'plugins.toggle_cct.p_stop',
+             '/togl-sen', 'plugins.toggle_cct.p_save_enabled'
              ]) 
-gv.plugin_menu.append(['Pulse Circuit', '/puls']) # Add this plugin to the home page plugins menu
+gv.plugin_menu.append(['Pulse Circuit', '/togl']) # Add this plugin to the home page plugins menu
 
 stop = True
 
@@ -35,31 +34,31 @@ def chatter(cct):
     stop_stations()
 
 
-class pulse(ProtectedPage):
+class toggle(ProtectedPage):
     """
     Load an html page for entering plugin settings.
     """
     def GET(self):
-        return template_render.pulse()  # open settings page
+        return template_render.toggle()  # open settings page
 
 
 class p_run():
-    """ Start pulsing selected circuit"""     
+    """ Start togling selected circuit"""     
     def GET(self):
         global stop
         qdict = web.input()
  #       print 'qdict: ', qdict
         stop = False
         chatter(int(qdict['zone']))
-        raise web.seeother('/puls')
+        raise web.seeother('/togl')
 
     
 class p_stop():
-    """Stop all pulsing."""  
+    """Stop all togling."""  
     def GET(self):
         global stop
         stop = True
-        raise web.seeother('/puls')
+        raise web.seeother('/togl')
     
 class p_save_enabled():
     
