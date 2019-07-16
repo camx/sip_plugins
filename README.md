@@ -120,6 +120,10 @@ A simple telegram.org bot to interface with a SIP installation.
 
 Run "pip install python-telegram-bot --upgrade" before installing this plugin.
 
+toggle_cct
+-------------
+Development of a toggle option by camx
+
 weather_adj
 ----------
 Adjust irrigation schedule based on weather forecast
